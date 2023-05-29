@@ -9,13 +9,25 @@ class BottomNavBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(BottomNavBarController());
+    final bottomNavBarController = Get.find<BottomNavBarController>();
     List<String> bottomNavBarItemLabel = ['main', 'recipe', 'user', 'bookmark'];
+
+    final url = Get.currentRoute;
+    if (url.contains('/main')) {
+      bottomNavBarController.currentIdx.value = 0;
+    } else if (url.contains('/recipe')) {
+      bottomNavBarController.currentIdx.value = 1;
+    } else if (url.contains('/user')) {
+      bottomNavBarController.currentIdx.value = 2;
+    } else if (url.contains('/bookmark')) {
+      bottomNavBarController.currentIdx.value = 3;
+    }
 
     void handleOnTap(int idx) {
       Get.put(BottomNavBarController());
       Get.find<BottomNavBarController>().updateCurrentIdx(idx);
       if (idx == 0) {
-        Get.offAndToNamed('/');
+        Get.offAndToNamed('/main');
       } else if (idx == 1) {
         Get.offAndToNamed('/recipe');
       } else if (idx == 2) {
@@ -33,36 +45,11 @@ class BottomNavBarWidget extends StatelessWidget {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
-
-
         currentIndex: Get.find<BottomNavBarController>().currentIdx.toInt(),
         onTap: handleOnTap,
-        items: bottomNavBarItemLabel.map((e) => bottomNavBarItem(bottomNavBarItemLabel.indexOf(e), e)).toList(),
-        // items:  [
-        //   BottomNavigationBarItem(
-        //       icon: CircleAvatar(
-        //         backgroundColor: Get.find<BottomNavBarController>().currentIdx.toInt() == 0? lightColorScheme.primary : Colors.transparent,
-        //         child: ImageIcon(
-        //           AssetImage('assets/icons/main.png'),
-        //         ),
-        //       ),
-        //       label: 'home'),
-        //   BottomNavigationBarItem(
-        //       icon: ImageIcon(
-        //         AssetImage('assets/icons/recipe.png'),
-        //       ),
-        //       label: 'recipe'),
-        //   BottomNavigationBarItem(
-        //       icon: ImageIcon(
-        //         AssetImage('assets/icons/user.png'),
-        //       ),
-        //       label: 'user'),
-        //   BottomNavigationBarItem(
-        //       icon: ImageIcon(
-        //         AssetImage('assets/icons/bookmark.png'),
-        //       ),
-        //       label: 'bookmark'),
-        // ],
+        items: bottomNavBarItemLabel
+            .map((e) => bottomNavBarItem(bottomNavBarItemLabel.indexOf(e), e))
+            .toList(),
       ),
     );
   }
@@ -72,44 +59,15 @@ class BottomNavBarWidget extends StatelessWidget {
     int currentIdx = Get.find<BottomNavBarController>().currentIdx.toInt();
 
     return BottomNavigationBarItem(
-      icon: CircleAvatar(
-        backgroundColor: currentIdx == idx? lightColorScheme.primary : Colors.transparent,
-        foregroundColor: currentIdx == idx? Colors.black : Colors.grey,
-        child: ImageIcon(
-          AssetImage('assets/icons/$label.png'),
-          size: 25,
+        icon: CircleAvatar(
+          backgroundColor:
+              currentIdx == idx ? lightColorScheme.primary : Colors.transparent,
+          foregroundColor: currentIdx == idx ? Colors.black : Colors.grey,
+          child: ImageIcon(
+            AssetImage('assets/icons/$label.png'),
+            size: 25,
+          ),
         ),
-      ),
-      label: label
-    );
+        label: label);
   }
 }
-
-// class BottomNavBarWidget extends StatefulWidget {
-//   const BottomNavBarWidget({Key? key}) : super(key: key);
-//
-//   @override
-//   State<BottomNavBarWidget> createState() => _BottomNavBarWidgetState();
-// }
-//
-// class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
-//   int _selectedIndex = 0;
-//
-//   final List<Widget> _bodyWidgets = <Widget>[
-//     MainPage(),
-//     RecipeCameraPage(),
-//     UserPage(),
-//     BookmarkPage()
-//   ];
-//
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//   }
-// }
