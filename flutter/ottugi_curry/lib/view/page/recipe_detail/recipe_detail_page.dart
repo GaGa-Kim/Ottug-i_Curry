@@ -107,8 +107,8 @@ class RecipeDetailPage extends StatelessWidget {
                                     timerController.stopTimerAlarm();
                                   },
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.only(left: 15, right: 10),
+                                    padding: const EdgeInsets.only(
+                                        left: 15, right: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25.0),
                                       color: lightColorScheme.primary,
@@ -442,7 +442,7 @@ class RecipeDetailPage extends StatelessWidget {
           ],
         ),
       ),
-    )
+    );
   }
 
   ListView recipeDetailTextListViewWidget() {
